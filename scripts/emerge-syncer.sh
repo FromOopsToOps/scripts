@@ -44,11 +44,14 @@ if [ $status == '0' ]
 fi
 
 echo "Setting up Portage back to fast" |$sendinfo
+sed -i 's/${SLOW}/${FAST}/g' /etc/portage/make.conf
 echo "Running depclean" |$sendinfo
 emerge --depclean
+
 if [ $status == '0' ]
         then #if so
                 echo "Successfully ran depclean." |$sendinfo
+		exit
         else
             	echo "Depclean failed." |$senderro
                 echo "We will stop for now and try again later." |$senderro
@@ -57,4 +60,4 @@ if [ $status == '0' ]
                 exit
 fi
 
-sed -i 's/${SLOW}/${FAST}/g' /etc/portage/make.conf
+exit
